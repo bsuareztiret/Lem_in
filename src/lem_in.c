@@ -6,7 +6,7 @@
 /*   By: tjuzen <tjuzen@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 16:28:27 by tjuzen            #+#    #+#             */
-/*   Updated: 2019/12/11 17:27:31 by bsuarez-         ###   ########.fr       */
+/*   Updated: 2019/12/18 18:04:02 by bsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int				main(void)
 		return (exit_free(&arg, map));
 	if (read_file(&arg, &map) == -1)
 		return (exit_free(&arg, map));
-    // print_to_links(map, &arg, map->links);
+    // if (max_path(&arg, &map) == -1)
+    //     return(exit_free(&arg, map));
     if (arg.in != 1 || arg.out != 1 || map->links == NULL || arg.ants == -1)
         return (exit_free(&arg, map));
 	if (find_path(&map, &arg) == -1)

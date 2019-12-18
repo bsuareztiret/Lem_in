@@ -6,7 +6,7 @@
 /*   By: tjuzen <tjuzen@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 20:51:04 by tjuzen            #+#    #+#             */
-/*   Updated: 2019/12/16 19:12:58 by bsuarez-         ###   ########.fr       */
+/*   Updated: 2019/12/18 18:27:18 by bsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,15 @@ int 	add_found_path(t_data_map *map, t_lemin *arg, t_node *room)
 
 	while (room)
 	{
+		// printf("je boucle ici aussi ");
+		// printf("{} %s {}", room->room);
 		tmp = lookuplink(map, room->parent, room);
 		if (tmp)
 		{
 			tmp->selected++;
 			if (tmp->reversed)
 				tmp->reversed->selected++;
+			arg->total_weight++;
 		}
 		room = room->parent;
 	}
@@ -165,65 +168,18 @@ void inverse_links(t_data_map *map, t_lemin *arg, t_node *room)
 	}
 }
 
-void check_inversed(t_data_map *map, t_lemin *arg, t_linkstab *tmp)
+void 	check_inversed(t_data_map *map, t_lemin *arg, t_linkstab *tmp)
 {
 	while (tmp->next)
 	{
 		if (tmp->selected > 1)
+		{
 			tmp->selected = 0;
+		}
 		if (tmp->reversed && tmp->reversed->selected > 1)
 			tmp->reversed->selected = 0;
 		tmp = tmp->next;
 	}
-}
-
-int 		stock_room_path(t_data_map **map, t_linkstab *tmp, t_linkstab *path, int way, t_lemin *arg)
-{
-	t_linkstab	*next;
-	t_path 		*new;
-	int			i;
-
-	next = path;
-	i = 0;
-	if (!(new = ft_memalloc(sizeof(t_path))))
-		return (-1);
-	if (!(new->path_list = ft_memalloc(sizeof(char**) * 10)))
-		return (-1);
-	while (path->next)
-	{
-		// printf ("XXXXXXX____[%s]-[%s]: %i | %i\n", path->rooma->room, path->roomb->room, path->weight, path->selected);
-		if (path->selected == 1 && path->weight == 1)
-		{
-			if (path->rooma->room == tmp->rooma->room
-				&& path->rooma->room != tmp->roomb->room
-				&& path->rooma->status != 'O')
-			{
-				printf ("____[%s]-[%s]: %i\n", path->rooma->room, path->roomb->room, path->weight);
-				if (!(new->path_list[i++] = ft_strdup(path->rooma->room)))
-				{
-					free(new);
-					return (-1);
-				}
-				printf ("_____________[%s]\n", new->path_list[i - 1]);
-				if (tmp->rooma->status != 'O')
-				{
-					tmp->rooma = path->roomb;
-					path = next;
-				}
-			}
-		}
-		path = path->next;
-	}
-	printf("\n|---------------------------------------------|\n\n");
-	printf("waaaaaaaaaay: %i\n", way);
-	printf ("NBR%i|\n", i);
-	new->weight = i;
-	new->path_list[i] = arg->end->room;
-	printf ("_____________[%s]\n", new->path_list[i]);
-	printf ("WEG%i|\n", new->weight);
-	printf("\n|---------------------------------------------|\n\n");
-	(*map)->way[way] = new;
-	return (0);
 }
 
 // int 		stock_path(t_data_map **map, t_lemin *arg, t_linkstab *tmp)
@@ -279,39 +235,39 @@ int 		stock_room_path(t_data_map **map, t_linkstab *tmp, t_linkstab *path, int w
 int find_path(t_data_map **map, t_lemin *arg)
 {
 	t_node *tmp;
-	int nombredepaths = 2;
 	int nbr = 0;
 
 	bellman_peugeot(map, arg);
 	if (add_found_path((*map), arg, arg->end) == -1)
 		return (-1);
-	print_all_links((*map), arg, (*map)->links);
+	max_path(arg, map);
+	// print_all_links((*map), arg, (*map)->links);
 
-	while (nombredepaths--)
+	while ((int)arg->nbr_round--)
 	{
-		printf("\n\n\n                                   CA TOURNE \n\n\n");
-		printf("je dup \n");
-		if (duplicate_nodes((*map), arg, arg->end) == -1)
-			return (-1);
-			print_all_links((*map), arg, (*map)->links);
+		// printf("\n\n\n                                   CA TOURNE \n\n\n");
+		// printf("je dup \n");
+		// if (duplicate_nodes((*map), arg, arg->end) == -1)
+		// 	return (-1);
+			// print_all_links((*map), arg, (*map)->links);
 
-		printf("j'inverse \n");
+		// printf("j'inverse \n");
 		inverse_links((*map), arg, arg->end);
-		print_all_links((*map), arg, (*map)->links);
+		// print_all_links((*map), arg, (*map)->links);
 
-		printf("je  reset\n");
+		// printf("je  reset\n");
 		reset(map, arg, (*map)->links);
-		print_all_links((*map), arg, (*map)->links);
+		// print_all_links((*map), arg, (*map)->links);
 
-		printf("je bellman \n");
+		// printf("je bellman \n");
 		bellman_peugeot(map, arg);
 		if (add_found_path((*map), arg, arg->end) == -1)
 			return (-1);
-			print_all_links((*map), arg, (*map)->links);
+			// print_all_links((*map), arg, (*map)->links);
 
-		printf("je check inversed\n");
+		// printf("je check inversed\n");
 	 	check_inversed((*map), arg, (*map)->links);
-		print_all_links((*map), arg, (*map)->links);
+		// print_all_links((*map), arg, (*map)->links);
 
 	}
 	if ((nbr = find_nbr_way(map, arg, (*map)->links)) == -1)

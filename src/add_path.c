@@ -6,7 +6,7 @@
 /*   By: bsuarez- <bsuarez-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 16:29:06 by bsuarez-          #+#    #+#             */
-/*   Updated: 2019/12/17 15:55:18 by bsuarez-         ###   ########.fr       */
+/*   Updated: 2019/12/18 18:23:48 by bsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ t_node		*follow_path(t_path *new, t_lemin *arg, t_data_map **map, t_node *tmp)
 				&& check_follow(new, arg, links->roomb) == 0)
 			{
 					tmp = links->roomb;
-					printf ("1111111______[%s]-[%s]________\n", links->rooma->room, links->roomb->room);
+					// printf ("1111111______[%s]-[%s]________\n", links->rooma->room, links->roomb->room);
 			}
 			if ((ft_strcmp(links->roomb->room, tmp->room) == 0)
 				&& (check_follow(new, arg, links->rooma) == 0))
 			{
 					tmp = links->rooma;
-					printf ("22222________[%s]-[%s]________\n", links->rooma->room, links->roomb->room);
+					// printf ("22222________[%s]-[%s]________\n", links->rooma->room, links->roomb->room);
 			}
 		}
 		links = links->next;
@@ -53,11 +53,11 @@ int 		stock_path(t_data_map **map, t_lemin *arg, t_linkstab *links, int way)
 		return (-1);
 	if (!(new->path_list = ft_memalloc(sizeof(char**) * 50)))
 		return (-1);
-	printf ("____[%s]-[%s]: %i\n", links->rooma->room, links->roomb->room, links->weight);
-	printf ("///////////////[%s]\n", tmp->room);
+	// printf ("____[%s]-[%s]: %i\n", links->rooma->room, links->roomb->room, links->weight);
+	// printf ("///////////////[%s]\n", tmp->room);
 	while ((tmp = follow_path(new, arg, map, tmp)) != arg->end && i < 10)
 	{
-		printf ("||||||///////////////[%s]\n", tmp->room);
+		// printf ("||||||///////////////[%s]\n", tmp->room);
 		if (!(new->path_list[i++] = ft_strdup(tmp->room)))
 		{
 			free(new);
@@ -82,8 +82,8 @@ int			find_nbr_way(t_data_map **map, t_lemin *arg, t_linkstab *links)
 			if (arg->start->room == links->rooma->room
 				|| arg->start->room == links->roomb->room)
 			{
-				printf("[CHECK1]-");
-				printf ("[%s]-[%s]\n", links->rooma->room, links->roomb->room);
+				// printf("[CHECK1]-");
+				// printf ("[%s]-[%s]\n", links->rooma->room, links->roomb->room);
 				if (check_way(arg, map, links, way) == 0)
 					if (stock_path(map, arg, links, way++) == -1)
 						return (-1);
@@ -109,5 +109,4 @@ void		print_way(t_data_map **map, t_lemin *arg, int nbr)
 		i++;
 		printf("\n");
 	}
-	printf("nbr: %i | j: %i\n", nbr, j);
 }

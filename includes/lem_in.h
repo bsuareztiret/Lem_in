@@ -6,7 +6,7 @@
 /*   By: bsuarez- <bsuarez-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:35:51 by bsuarez-          #+#    #+#             */
-/*   Updated: 2019/12/17 15:52:56 by bsuarez-         ###   ########.fr       */
+/*   Updated: 2019/12/18 17:50:37 by bsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,15 @@ struct			s_linkstab
 
 struct	s_lemin
 {
-	int				paths_founds;
+	int				foundpath;
 	int				ants;
 	int				wrong_line;
 	int				malloc_error;
 	unsigned long	totalrooms;
 	unsigned long	totalinks;
-	int				foundpath;
+	int				total_weight;
+	int				max_path;
+	double			nbr_round;
 	t_node			*start;
 	t_node			*end;
 	short			in;
@@ -147,6 +149,7 @@ int 			get_infos(char *line, t_data_map **map, t_lemin *arg);
 
 int 			add_end_start(char *line, t_data_map **map, t_lemin *arg, char s);
 int 			get_number_of_ants(char *line, t_lemin *arg);
+int				max_path(t_lemin *arg, t_data_map **map);
 int				check_links(t_data_map *map, t_node *a, t_node *b);
 int				valid_end_start(int i, t_lemin *arg, char s);
 
@@ -232,7 +235,7 @@ int 	add_end_start(char *line, t_data_map **map, t_lemin *arg, char s);
 */
 
 void 	print_all_links(t_data_map *map, t_lemin *arg, t_linkstab *tmp);
-void 	print_colors(t_data_map *map, t_lemin *arg, t_linkstab *tmp);
+void 	print_colors(t_linkstab *tmp);
 
 /*
 ** FREE_MAP.C
