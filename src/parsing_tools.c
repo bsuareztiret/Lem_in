@@ -6,7 +6,7 @@
 /*   By: tjuzen <tjuzen@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:47:12 by tjuzen            #+#    #+#             */
-/*   Updated: 2019/12/20 01:36:20 by bsuarez-         ###   ########.fr       */
+/*   Updated: 2019/12/20 01:43:49 by bsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,6 @@ int		gives_order(t_lemin *arg, t_path **way, int path)
 		i = 0;
 		while (i == 0 && j < path + round)
 		{
-			// printf ("\nJ: %i, path: %i round: %i\n", j, path, round);
-			// printf ("\nsum_path: %i\n", arg->sum_path);
-			// printf ("[L-%i-%s] ", list->nbr, way[list->path]->path_list[list->room]);
 			if (list->nrj >= 0)
 			{
 				j++;
