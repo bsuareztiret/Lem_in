@@ -6,7 +6,7 @@
 /*   By: bsuarez- <bsuarez-@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:35:51 by bsuarez-          #+#    #+#             */
-/*   Updated: 2019/12/18 17:50:37 by bsuarez-         ###   ########.fr       */
+/*   Updated: 2019/12/20 00:09:52 by bsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct	s_data_map	t_data_map;
 typedef	struct	s_lemin		t_lemin;
 typedef	struct	s_linkstab	t_linkstab;
 typedef	struct	s_path		t_path;
+typedef struct	s_ants		t_ants;
 
 
 struct s_data_map
@@ -90,6 +91,8 @@ struct	s_lemin
 	t_node			*end;
 	short			in;
 	short			out;
+	t_ants			*army;
+	int				sum_path;
 };
 
 struct s_path
@@ -97,6 +100,15 @@ struct s_path
 	int				path;
 	int				weight;
 	char			**path_list;
+};
+
+struct s_ants
+{
+	int				nbr;
+	int				room;
+	int				nrj;
+	int				path;
+	t_ants			*next;
 };
 
 /*
@@ -199,7 +211,6 @@ void 	inverse_links(t_data_map *map, t_lemin *arg, t_node *room);
 void 	check_inversed(t_data_map *map, t_lemin *arg, t_linkstab *tmp);
 int 	stock_room_path(t_data_map **map, t_linkstab *tmp, t_linkstab *path, int way, t_lemin *arg);
 int 	stock_path(t_data_map **map, t_lemin *arg, t_linkstab *links, int way);
-void	print_way(t_data_map **map, t_lemin *arg, int nbr);
 int 	find_path(t_data_map **map, t_lemin *arg);
 
 
@@ -219,7 +230,8 @@ int 		check_follow(t_path *new, t_lemin *arg, t_node *links);
 t_node		*follow_path(t_path *new, t_lemin *arg, t_data_map **map, t_node *tmp);
 int 		stock_path(t_data_map **map, t_lemin *arg, t_linkstab *links, int way);
 int			find_nbr_way(t_data_map **map, t_lemin *arg, t_linkstab *links);
-void		print_way(t_data_map **map, t_lemin *arg, int nbr);
+void		print_way(t_data_map **map, t_lemin *arg, int nbr, int ant);
+void 		send_ant(t_data_map **map, t_lemin *arg, int nbr);
 
 /*
 ** PARSING_TOOLS.C
@@ -228,6 +240,7 @@ void		print_way(t_data_map **map, t_lemin *arg, int nbr);
 int 	get_number_of_ants(char *line, t_lemin *arg);
 int		valid_end_start(int i, t_lemin *arg, char s);
 int 	add_end_start(char *line, t_data_map **map, t_lemin *arg, char s);
+int		gives_order(t_lemin *arg, t_path **way, int path);
 
 
 /*

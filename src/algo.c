@@ -6,7 +6,7 @@
 /*   By: tjuzen <tjuzen@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 20:51:04 by tjuzen            #+#    #+#             */
-/*   Updated: 2019/12/18 18:27:18 by bsuarez-         ###   ########.fr       */
+/*   Updated: 2019/12/19 22:52:00 by bsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,6 @@ int find_path(t_data_map **map, t_lemin *arg)
 
 	}
 	if ((nbr = find_nbr_way(map, arg, (*map)->links)) == -1)
-		return (-1);
-	print_way(map, arg, nbr);
+		return (1);
 	return (1);
 }
